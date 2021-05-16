@@ -3,16 +3,19 @@ import json
 import uuid
 from db import Database
 from tools.createValidateCode import validate_code
+from tools.createKey import decryption
 import time
 import os
+from traceback import print_exc
 
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.secret_key = 'please-generate-a-random-secret_key'
-path = os.getcwd().split("person_manage")[0] + "person_manage"
+PATH = os.getcwd().split("person_manage")[0] + "person_manage"
 
 
+# 失败的返回
 def jsonFail(message) :
 
     post_data = {
@@ -24,6 +27,7 @@ def jsonFail(message) :
     return jsonify(post_data)
 
 
+# 成功的返回
 def jsonSuccess(data) :
 
     post_data = {
@@ -36,16 +40,67 @@ def jsonSuccess(data) :
     return jsonify(post_data)
 
 
+# 检查前端的参数
+def checkPostData(check_list, post_data) :
+
+    for tmp in check_list:
+        if tmp not in post_data:
+            return "%s must exist, but it does not"%tmp
+
+
 # 登录
 def Login(post_data) :
 
-    return jsonSuccess(post_data)
+    # 校验请求参数
+    if 'ValidateCode' not in session :
+        jsonFail("Please get the ValidateCode first")
+
+    check_list = ["ValidateCode", "UserName", "Password", "Type"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result :
+        return jsonFail(check_result)
+
+    if post_data['ValidateCode'] != session['ValidateCode'] :
+        return jsonFail('ValidateCode error')
+
+    try :
+        post_data["Password"] = decryption(post_data["Password"])
+    except Exception :
+        return jsonFail('password ras decryption error')
+    else :
+        if post_data["Password"] == "解密失败" :
+            return jsonFail('password ras decryption error')
+
+
+    # 数据库校验账号密码是否正确
+    try :
+        db = Database()
+        user, err = db.check_login(post_data["UserName"], post_data["Password"], post_data["Type"])
+    except Exception as err :
+        return jsonFail(err)
+    else :
+        if err :
+            return jsonFail(err)
+
+    # 保存登录信息
+    session['ID'] = user["id"]
+    session['UserName'] = user["username"]
+    session['Password'] = user["password"]
+    session['Type'] = user["type"]
+
+    # 删除不需要返回给前端的参数
+    del user["createtime"]
+    del user["password"]
+    del user["lastupdate"]
+    del user["status"]
+
+    return jsonSuccess(user)
 
 
 # 获取rsa公钥
 def GetPublicKey() :
 
-    with open("%s/config/public.pem"%path, "r") as file :
+    with open("%s/config/public.pem"%PATH, "r") as file :
         data = file.read()
         data = data.replace("-----BEGIN PUBLIC KEY-----", "")
         data = data.replace("-----END PUBLIC KEY-----", "")
@@ -58,6 +113,7 @@ def GetValidateCode() :
 
     rand_str, image_base64 = validate_code()
     session['ValidateCode'] = rand_str
+    print(rand_str)
     return jsonSuccess(image_base64)
 
 

@@ -23,6 +23,54 @@ class Database() :
         self.cur = self.db.cursor()
 
 
+    # 关闭数据库连接
+    def close(self):
+
+        self.db.commit()
+        self.cur.close()
+        self.db.close()
+
+
+    # 查询结果转json格式
+    def sql_fetch_json(self):
+
+        keys = []
+        for column in self.cur.description:
+            keys.append(column[0])
+        key_number = len(keys)
+
+        json_data = []
+        for row in self.cur.fetchall():
+            item = dict()
+            for q in range(key_number):
+                item[keys[q]] = row[q]
+            json_data.append(item)
+
+        return json_data
+
+
+    # 检查登录
+    def check_login(self, username, password, type) :
+
+        sql = """
+            select * from user_info where username='%s' and type=%d and status=0;
+        """%(username, type)
+
+        self.cur.execute(sql)
+        user = self.sql_fetch_json()
+
+        if not user :
+            err = "user doesn't exist"
+            return None, err
+
+        if user[0]["password"] != password :
+            err = "password error"
+            return None, err
+
+
+        return user[0], None
+
+
 
 if __name__ == "__main__" :
 
