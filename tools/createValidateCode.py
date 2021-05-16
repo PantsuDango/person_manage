@@ -43,6 +43,7 @@ def validate_code():
     im.save("%s/config/validateCode.png"%path)
 
     # 转base64
+    os.remove("%s/config/validateCode.png"%path)
     with open("%s/config/validateCode.png"%path, 'rb') as f:
         base64_data = base64.b64encode(f.read())
         s = 'data:image/jpeg;base64,%s'%base64_data.decode()
