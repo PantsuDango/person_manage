@@ -100,6 +100,17 @@ def Login(post_data) :
     return jsonSuccess(user)
 
 
+def Logout() :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session):
+        jsonFail("Login information is invalid, please to login")
+
+    session.clear()
+    return jsonSuccess("Success")
+
+
+
 # 获取rsa公钥
 def GetPublicKey() :
 
@@ -273,6 +284,8 @@ def postData():
         return Register(post_data)
     if post_data["Action"] == "Login" :
         return Login(post_data)
+    if post_data["Action"] == "Logout" :
+        return Logout()
     if post_data["Action"] == "GetPublicKey" :
         return GetPublicKey()
     if post_data["Action"] == "GetValidateCode" :
