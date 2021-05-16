@@ -1,13 +1,15 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 import json
 import uuid
 from db import Database
+from tools.createValidateCode import validate_code
 import time
 import os
 
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
+app.secret_key = 'please-generate-a-random-secret_key'
 path = os.getcwd().split("person_manage")[0] + "person_manage"
 
 
@@ -51,6 +53,14 @@ def GetPublicKey() :
         return jsonSuccess(data)
 
 
+# 图片验证码
+def GetValidateCode() :
+
+    rand_str, image_base64 = validate_code()
+    session['ValidateCode'] = rand_str
+    return jsonSuccess(image_base64)
+
+
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
@@ -68,6 +78,8 @@ def postData():
         return Login(post_data)
     if post_data["Action"] == "GetPublicKey":
         return GetPublicKey()
+    if post_data["Action"] == "GetValidateCode":
+        return GetValidateCode()
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 
