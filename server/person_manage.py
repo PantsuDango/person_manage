@@ -160,6 +160,7 @@ def UpdateFamily(post_data) :
     if check_result:
         return jsonFail(check_result)
 
+    # 更新家庭信息
     try :
         db = Database()
         err = db.update_family(post_data["FamilyId"], post_data["MasterName"], post_data["JsonData"])
