@@ -51,11 +51,11 @@ class Database() :
 
 
     # 检查登录
-    def check_login(self, username, password, type) :
+    def check_login(self, username, password) :
 
         sql = """
-            select * from user_info where username='%s' and type=%d and status=0;
-        """%(username, type)
+            select * from user_info where username='%s' and status=0;
+        """%(username)
 
         self.cur.execute(sql)
         user = self.sql_fetch_json()

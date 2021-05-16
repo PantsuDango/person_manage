@@ -94,7 +94,6 @@
     "ValidateCode": "7607",
     "UserName": "admin",
     "Password": "mB8yj9CXYuXm6qIwrDF8RAQmsCjwpYs0w24cvsHZ/a+IirR1is4GbqVHb7B0rG+hdATojKUk90vTDj9tjjDnoxV7fj3e1E15DivYTu0dRKXYrS4qwQep0P5f8N483R9vL8cAmm46+tkzmKeebIGi6lyXanqhYHHBYu5C5PXt5Gs=",
-    "Type": 2
 }
 ```
 
@@ -106,7 +105,6 @@
 |ValidateCode |是  |string |图片验证码   |
 |UserName |是  |string |登录用户名   |
 |Password |是  |string |登录密码, rsa加密   |
-|Type |是  |int |账号类型: 1-普通用户, 2-普通管理员, 3-超级管理员   |
 
 ##### 返回示例 
 

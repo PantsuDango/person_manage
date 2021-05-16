@@ -56,7 +56,7 @@ def Login(post_data) :
     if 'ValidateCode' not in session :
         jsonFail("Please get the ValidateCode first")
 
-    check_list = ["ValidateCode", "UserName", "Password", "Type"]
+    check_list = ["ValidateCode", "UserName", "Password"]
     check_result = checkPostData(check_list, post_data)
     if check_result :
         return jsonFail(check_result)
@@ -76,7 +76,7 @@ def Login(post_data) :
     # 数据库校验账号密码是否正确
     try :
         db = Database()
-        user, err = db.check_login(post_data["UserName"], post_data["Password"], post_data["Type"])
+        user, err = db.check_login(post_data["UserName"], post_data["Password"])
     except Exception as err :
         return jsonFail(err)
     else :
