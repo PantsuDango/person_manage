@@ -208,3 +208,50 @@
     "RequestId": "ef9fc964-5c30-408b-b603-b66b9e05ac7b"
 }
 ```
+
+
+#### 查询家庭信息列表
+
+##### 简要描述
+
+- 查询家庭信息列表, 管理员只能看到自己录入的, 超级管理员能看到所有
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "ListFamily"
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": [
+        {
+            "building": "3号楼",
+            "community": "东风路办事处",
+            "dormitory": "303室",
+            "id": 4,
+            "json_data": "{}",
+            "master_name": "珍珠哥"
+        }
+    ],
+    "Message": "Success",
+    "RequestId": "0cfbaea3-175e-4e8f-b52f-ed4f68d1ad09"
+}
+```

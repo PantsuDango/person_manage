@@ -104,6 +104,23 @@ class Database() :
         self.cur.execute(sql)
 
 
+    def select_family(self, user_id, type) :
+
+        if type == 3 :
+            sql = """
+                select * from family_info;
+            """
+        else :
+            sql = """
+                select * from family_info where user_id=%d;
+            """%(user_id)
+
+        self.cur.execute(sql)
+        family = self.sql_fetch_json()
+        return family
+
+
+
 
 if __name__ == "__main__" :
 

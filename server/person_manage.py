@@ -134,7 +134,6 @@ def AddFamily(post_data) :
     if check_result:
         return jsonFail(check_result)
 
-
     try :
         db = Database()
         db.insert_family(session["ID"], post_data["Community"], post_data["Building"], post_data["Dormitory"])
@@ -143,7 +142,6 @@ def AddFamily(post_data) :
     else :
         db.close()
         return jsonSuccess("Success")
-
 
 
 # 更新家庭信息
@@ -174,6 +172,49 @@ def UpdateFamily(post_data) :
         return jsonSuccess("Success")
 
 
+# 查询家庭信息列表
+def ListFamily() :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        jsonFail("Login information is invalid, please to login")
+    if (session['Type'] != 2) or (session['Type'] != 3) :
+        jsonFail("user type error")
+
+    try :
+        db = Database()
+        family = db.select_family(session["ID"], session['Type'])
+    except Exception as err :
+        return jsonFail(err)
+    else :
+        db.close()
+        # 删除不需要返回给前端的参数
+        for index in range(len(family)) :
+            del family[index]["createtime"]
+            del family[index]["user_id"]
+
+        return jsonSuccess(family)
+
+
+def Register(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        jsonFail("Login information is invalid, please to login")
+    if (session['Type'] != 2) or (session['Type'] != 3) :
+        jsonFail("user type error")
+
+    check_list = ["UserName", "Password", "Type"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+    if post_data["Type"] == 3 :
+        return jsonFail("user type error")
+    if post_data["Type"] == 2 and session['Type'] != 3 :
+        return jsonFail("user type error")
+
+
 
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
@@ -198,6 +239,8 @@ def postData():
         return AddFamily(post_data)
     if post_data["Action"] == "UpdateFamily" :
         return UpdateFamily(post_data)
+    if post_data["Action"] == "ListFamily" :
+        return ListFamily()
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 
