@@ -12,8 +12,8 @@ CREATE TABLE `user_info` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户账号信息表';
-Insert INTO `user_info` (id, username, password, type, status, createtime, lastupdate) VALUES (1, 'root', '123456', 3, 0, now(), now());
-Insert INTO `user_info` (id, username, password, type, status, createtime, lastupdate) VALUES (2, 'admin', '123456', 2, 0, now(), now());
+INSERT INTO `user_info` (id, username, password, type, status, createtime, lastupdate) VALUES (1, 'root', '123456', 3, 0, now(), now());
+INSERT INTO `user_info` (id, username, password, type, status, createtime, lastupdate) VALUES (2, 'admin', '123456', 2, 0, now(), now());
 
 
 CREATE TABLE `register_map` (

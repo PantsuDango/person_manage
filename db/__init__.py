@@ -120,6 +120,14 @@ class Database() :
         return family
 
 
+    def insert_user(self, username, password, type) :
+
+        sql = """
+            INSERT INTO `user_info` (id, username, password, type, status, createtime, lastupdate) 
+            VALUES (null, '%s', '%s', %d, 0, now(), now());
+        """%(username, password, type)
+
+        self.cur.execute(sql)
 
 
 if __name__ == "__main__" :

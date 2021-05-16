@@ -196,6 +196,7 @@ def ListFamily() :
         return jsonSuccess(family)
 
 
+# 注册用户
 def Register(post_data) :
 
     # 校验请求参数是否符合预期
@@ -204,15 +205,29 @@ def Register(post_data) :
     if (session['Type'] != 2) or (session['Type'] != 3) :
         jsonFail("user type error")
 
-    check_list = ["UserName", "Password", "Type"]
+    check_list = ["UserName", "Type"]
     check_result = checkPostData(check_list, post_data)
     if check_result:
         return jsonFail(check_result)
+
+    if "Password" not in post_data :
+        post_data["Password"] = "123456"
 
     if post_data["Type"] == 3 :
         return jsonFail("user type error")
     if post_data["Type"] == 2 and session['Type'] != 3 :
         return jsonFail("user type error")
+    if post_data["Type"] not in [1, 2, 3] :
+        return jsonFail("user type error")
+
+    try :
+        db = Database()
+        db.insert_user(post_data["UserName"], post_data["Password"], post_data["Type"])
+    except Exception as err :
+        return jsonFail(err)
+    else :
+        db.close()
+        return jsonSuccess("Success")
 
 
 
@@ -229,6 +244,8 @@ def postData():
     if "Action" not in post_data :
         return jsonFail("Action must exist, but it does not")
 
+    if post_data["Action"] == "Register" :
+        return Register(post_data)
     if post_data["Action"] == "Login" :
         return Login(post_data)
     if post_data["Action"] == "GetPublicKey" :

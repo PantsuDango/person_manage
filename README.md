@@ -255,3 +255,46 @@
     "RequestId": "0cfbaea3-175e-4e8f-b52f-ed4f68d1ad09"
 }
 ```
+
+
+#### 注册用户
+
+##### 简要描述
+
+- 注册用户, 超级管理员可以注册管理员, 管理员可以注册普通用户
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "Register",
+    "UserName": "inyin",
+    "Password": "123456",
+    "Type": 1
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|UserName |是  |string |登录用户名   |
+|Password |否  |string |登录密码, 不传时默认为123456   |
+|Type |是  |int |账号类型: 1-普通用户, 2-普通管理员, 3-超级管理员   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Message": "Success",
+    "RequestId": "ef9fc964-5c30-408b-b603-b66b9e05ac7b"
+}
+```
