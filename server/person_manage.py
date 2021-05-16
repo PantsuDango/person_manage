@@ -52,7 +52,7 @@ def GetPublicKey() :
 
 
 # 主接口
-@app.route("/person_manage", methods=["POST"])
+@app.route("/person_manage/api", methods=["POST"])
 def postData():
 
     try :
