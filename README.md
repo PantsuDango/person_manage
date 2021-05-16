@@ -165,3 +165,46 @@
     "RequestId": "ef9fc964-5c30-408b-b603-b66b9e05ac7b"
 }
 ```
+
+
+#### 更新家庭信息
+
+##### 简要描述
+
+- 更新家庭信息
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "UpdateFamily",
+    "FamilyId": 4,
+    "MasterName": "珍珠哥",
+    "JsonData": "{}"
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|FamilyId |是  |int |房屋id   |
+|MasterName |是  |string |户主姓名   |
+|JsonData |是  |string |家庭信息json字符串, 内部格式随意   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Message": "Success",
+    "RequestId": "ef9fc964-5c30-408b-b603-b66b9e05ac7b"
+}
+```

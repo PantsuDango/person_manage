@@ -75,18 +75,32 @@ class Database() :
     # 写入房屋数据
     def insert_family(self, user_id, community, building, dormitory) :
 
-        json_data = {}
-        json_data["community"] = community
-        json_data["building"] = building
-        json_data["dormitory"] = dormitory
-        json_data = json.dumps(json_data)
-
         sql = """
             INSERT INTO `family_info` 
             (id, user_id, community, building, dormitory, master_name, json_data, createtime) 
-            VALUES (null, %d, '%s', '%s', '%s', null, '%s', now());
-        """%(user_id, community, building, dormitory, json_data)
+            VALUES (null, %d, '%s', '%s', '%s', null, null, now());
+        """%(user_id, community, building, dormitory)
 
+        self.cur.execute(sql)
+
+
+
+    # 更新家庭信息
+    def update_family(self, id, master_name, json_data) :
+
+        check_sql = """
+            select * from family_info where id=%d;
+        """%(id)
+        self.cur.execute(check_sql)
+        family = self.sql_fetch_json()
+        if not family :
+            err = "FamilyId doesn't exist"
+            return err
+
+
+        sql = """
+            update family_info set master_name='%s', json_data='%s' where id=%d;
+        """%(master_name, json_data, id)
         self.cur.execute(sql)
 
 
