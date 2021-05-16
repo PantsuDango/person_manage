@@ -72,3 +72,53 @@
     "RequestId": "648020b5-c9f7-4ed1-b220-1f25bd7f6b47"
 }
 ```
+
+
+#### 用户登录
+
+##### 简要描述
+
+- 用户登录
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "Login",
+    "ValidateCode": "7607",
+    "UserName": "admin",
+    "Password": "mB8yj9CXYuXm6qIwrDF8RAQmsCjwpYs0w24cvsHZ/a+IirR1is4GbqVHb7B0rG+hdATojKUk90vTDj9tjjDnoxV7fj3e1E15DivYTu0dRKXYrS4qwQep0P5f8N483R9vL8cAmm46+tkzmKeebIGi6lyXanqhYHHBYu5C5PXt5Gs=",
+    "Type": 2
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|ValidateCode |是  |string |图片验证码   |
+|UserName |是  |string |登录用户名   |
+|Password |是  |string |登录密码, rsa加密   |
+|Type |是  |int |账号类型: 1-普通用户, 2-普通管理员, 3-超级管理员   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": {
+        "id": 2,
+        "type": 2,
+        "username": "admin"
+    },
+    "Message": "Success",
+    "RequestId": "ef9fc964-5c30-408b-b603-b66b9e05ac7b"
+}
+```
