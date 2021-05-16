@@ -27,6 +27,7 @@ def jsonFail(message) :
     return jsonify(post_data)
 
 
+
 # 成功的返回
 def jsonSuccess(data) :
 
@@ -79,8 +80,10 @@ def Login(post_data) :
     except Exception as err :
         return jsonFail(err)
     else :
+        db.close()
         if err :
             return jsonFail(err)
+
 
     # 保存登录信息
     session['ID'] = user["id"]
@@ -117,6 +120,32 @@ def GetValidateCode() :
     return jsonSuccess(image_base64)
 
 
+# 添加小区房屋
+def AddFamily(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        jsonFail("Login information is invalid, please to login")
+    if (session['Type'] != 2) or (session['Type'] != 3) :
+        jsonFail("user type error")
+
+    check_list = ["Community", "Building", "Dormitory"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+
+    try :
+        db = Database()
+        db.insert_family(session["ID"], post_data["Community"], post_data["Building"], post_data["Dormitory"])
+    except Exception as err :
+        return jsonFail(err)
+    else :
+        db.close()
+        return jsonSuccess("Success")
+
+
+
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
@@ -136,6 +165,8 @@ def postData():
         return GetPublicKey()
     if post_data["Action"] == "GetValidateCode":
         return GetValidateCode()
+    if post_data["Action"] == "AddFamily":
+        return AddFamily(post_data)
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 

@@ -122,3 +122,46 @@
     "RequestId": "ef9fc964-5c30-408b-b603-b66b9e05ac7b"
 }
 ```
+
+
+#### 添加小区房屋
+
+##### 简要描述
+
+- 添加小区房屋
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "AddFamily",
+    "Community": "东风路办事处",
+    "Building": "3号楼",
+    "Dormitory": "303室"
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|Community |是  |string |社区名称   |
+|Building |是  |string |楼(幢)号   |
+|Dormitory |是  |string |户(室)号   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Message": "Success",
+    "RequestId": "ef9fc964-5c30-408b-b603-b66b9e05ac7b"
+}
+```

@@ -3,6 +3,7 @@ from traceback import print_exc
 import pymysql
 import time
 import os
+import json
 
 
 class Database() :
@@ -69,6 +70,24 @@ class Database() :
 
 
         return user[0], None
+
+
+    # 写入房屋数据
+    def insert_family(self, user_id, community, building, dormitory) :
+
+        json_data = {}
+        json_data["community"] = community
+        json_data["building"] = building
+        json_data["dormitory"] = dormitory
+        json_data = json.dumps(json_data)
+
+        sql = """
+            INSERT INTO `family_info` 
+            (id, user_id, community, building, dormitory, master_name, json_data, createtime) 
+            VALUES (null, %d, '%s', '%s', '%s', null, '%s', now());
+        """%(user_id, community, building, dormitory, json_data)
+
+        self.cur.execute(sql)
 
 
 
