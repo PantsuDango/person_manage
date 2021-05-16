@@ -230,6 +230,31 @@ def Register(post_data) :
         return jsonSuccess("Success")
 
 
+# 新增用户信息
+def AddPersonnel(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        jsonFail("Login information is invalid, please to login")
+    if (session['Type'] != 2) or (session['Type'] != 3) :
+        jsonFail("user type error")
+
+    check_list = ["UserId", "FamilyId", "Type", "Domicile", "JsonData"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+    try :
+        db = Database()
+        db.insert_personnel(post_data["UserId"], post_data["FamilyId"], post_data["Type"], post_data["Domicile"], post_data["JsonData"])
+    except Exception as err :
+        return jsonFail(err)
+    else :
+        db.close()
+        return jsonSuccess("Success")
+
+
+
 
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
@@ -258,6 +283,8 @@ def postData():
         return UpdateFamily(post_data)
     if post_data["Action"] == "ListFamily" :
         return ListFamily()
+    if post_data["Action"] == "AddPersonnel" :
+        return AddPersonnel(post_data)
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 

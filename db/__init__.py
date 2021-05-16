@@ -130,6 +130,16 @@ class Database() :
         self.cur.execute(sql)
 
 
+    def insert_personnel(self, user_id, family_id, type, domicile, json_data) :
+
+        sql = """
+            INSERT INTO `personnel_info` (id, user_id, family_id, type, domicile, json_data, createtime) 
+            VALUES (null, %d, %d, %d, '%s', '%s', now());
+        """%(user_id, family_id, type, domicile, json_data)
+
+        self.cur.execute(sql)
+
+
 if __name__ == "__main__" :
 
     db = Database()

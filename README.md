@@ -298,3 +298,51 @@
     "RequestId": "ef9fc964-5c30-408b-b603-b66b9e05ac7b"
 }
 ```
+
+
+#### 新增用户信息
+
+##### 简要描述
+
+- 新增用户信息
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "AddPersonnel",
+    "UserId": 4,
+    "FamilyId": 4,
+    "Type": 0,
+    "Domicile": "海南儋州",
+    "JsonData": "{}"
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|UserId |是  |int |绑定的用户id   |
+|FamilyId |是  |int |绑定的家庭id   |
+|Type |是  |int |人口类型: 0-常驻人口, 1-流动人口, 2-新生人口, 3-死亡人口   |
+|Domicile |是  |string |籍贯   |
+|JsonData |是  |string |人员信息json字符串, 内部格式随意   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": "Success",
+    "Message": "Success",
+    "RequestId": "33179a4a-882e-415b-86ff-a7a69c9b000b"
+}
+```
