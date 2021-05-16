@@ -46,6 +46,7 @@ def validate_code():
     with open("%s/config/validateCode.png"%path, 'rb') as f:
         base64_data = base64.b64encode(f.read())
         s = 'data:image/jpeg;base64,%s'%base64_data.decode()
+    os.remove("%s/config/validateCode.png"%path)
 
     return rand_str, s
 
