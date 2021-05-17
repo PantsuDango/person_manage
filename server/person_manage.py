@@ -214,11 +214,13 @@ def AddFamily(post_data) :
     if session['Type'] not in [2, 3]:
         return jsonFail("user type error")
 
-    check_list = ["AddrId", "JsonData"]
+    check_list = ["JsonData"]
     check_result = checkPostData(check_list, post_data)
     if check_result:
         return jsonFail(check_result)
 
+    if "AddrId" not in post_data :
+        post_data["AddrId"] = 0
     if "MasterName" not in post_data :
         post_data["MasterName"] = ""
 

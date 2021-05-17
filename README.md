@@ -419,8 +419,7 @@
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
 |Action |是  |string |接口名   |
-|AddrId |是  |int |绑定的房屋地址id   |
-|FamilyId |是  |int |绑定的家庭id   |   |
+|AddrId |否  |int |绑定的房屋地址id   |
 |MasterName |否  |string |户主姓名   |
 |JsonData |是  |string |家庭信息json字符串, 内部格式随意   |
 
