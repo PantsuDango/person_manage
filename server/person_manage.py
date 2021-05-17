@@ -51,7 +51,7 @@ def Login(post_data) :
 
     # 校验请求参数
     if 'ValidateCode' not in session :
-        jsonFail("Please get the ValidateCode first")
+        return jsonFail("Please get the ValidateCode first")
 
     check_list = ["ValidateCode", "UserName", "Password"]
     check_result = checkPostData(check_list, post_data)
@@ -99,7 +99,7 @@ def Logout() :
 
     # 校验请求参数是否符合预期
     if ("ID" not in session) or ("Type" not in session):
-        jsonFail("Login information is invalid, please to login")
+        return jsonFail("Login information is invalid, please to login")
 
     session.clear()
     return jsonSuccess("Success")
@@ -125,14 +125,14 @@ def GetValidateCode() :
     return jsonSuccess(image_base64)
 
 
-# 添加小区房屋
-def AddFamily(post_data) :
+# 添加房屋地址
+def AddAddr(post_data) :
 
     # 校验请求参数是否符合预期
     if ("ID" not in session) or ("Type" not in session) :
-        jsonFail("Login information is invalid, please to login")
-    if (session['Type'] != 2) or (session['Type'] != 3) :
-        jsonFail("user type error")
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
 
     check_list = ["Community", "Building", "Dormitory"]
     check_result = checkPostData(check_list, post_data)
@@ -141,7 +141,7 @@ def AddFamily(post_data) :
 
     try :
         db = Database()
-        db.insert_family(session["ID"], post_data["Community"], post_data["Building"], post_data["Dormitory"])
+        db.insert_addr(session["ID"], post_data["Community"], post_data["Building"], post_data["Dormitory"])
     except Exception as err :
         return jsonFail(err)
     else :
@@ -149,24 +149,27 @@ def AddFamily(post_data) :
         return jsonSuccess("Success")
 
 
-# 更新家庭信息
-def UpdateFamily(post_data) :
+# 更新房屋地址
+def UpdateAddr(post_data) :
 
     # 校验请求参数是否符合预期
     if ("ID" not in session) or ("Type" not in session) :
-        jsonFail("Login information is invalid, please to login")
-    if (session['Type'] != 2) or (session['Type'] != 3) :
-        jsonFail("user type error")
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
 
-    check_list = ["FamilyId", "MasterName", "JsonData"]
+    check_list = ["AddrId", "Community", "Building", "Dormitory"]
     check_result = checkPostData(check_list, post_data)
     if check_result:
         return jsonFail(check_result)
 
+    if "FamilyId" not in post_data :
+        post_data["FamilyId"] = 0
+
     # 更新家庭信息
     try :
         db = Database()
-        err = db.update_family(post_data["FamilyId"], post_data["MasterName"], post_data["JsonData"])
+        err = db.update_addr(post_data["AddrId"], post_data["Community"], post_data["Building"], post_data["Dormitory"], post_data["FamilyId"])
     except Exception as err :
         return jsonFail(err)
     else :
@@ -177,18 +180,18 @@ def UpdateFamily(post_data) :
         return jsonSuccess("Success")
 
 
-# 查询家庭信息列表
-def ListFamily() :
+# 查询地址信息列表
+def ListAddr() :
 
     # 校验请求参数是否符合预期
     if ("ID" not in session) or ("Type" not in session) :
-        jsonFail("Login information is invalid, please to login")
-    if (session['Type'] != 2) or (session['Type'] != 3) :
-        jsonFail("user type error")
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
 
     try :
         db = Database()
-        family = db.select_family(session["ID"], session['Type'])
+        family = db.select_addr(session["ID"], session['Type'])
     except Exception as err :
         return jsonFail(err)
     else :
@@ -196,6 +199,7 @@ def ListFamily() :
         # 删除不需要返回给前端的参数
         for index in range(len(family)) :
             del family[index]["createtime"]
+            del family[index]["lastupdate"]
             del family[index]["user_id"]
 
         return jsonSuccess(family)
@@ -206,9 +210,9 @@ def Register(post_data) :
 
     # 校验请求参数是否符合预期
     if ("ID" not in session) or ("Type" not in session) :
-        jsonFail("Login information is invalid, please to login")
-    if (session['Type'] != 2) or (session['Type'] != 3) :
-        jsonFail("user type error")
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
 
     check_list = ["UserName", "Type"]
     check_result = checkPostData(check_list, post_data)
@@ -240,9 +244,9 @@ def AddPersonnel(post_data) :
 
     # 校验请求参数是否符合预期
     if ("ID" not in session) or ("Type" not in session) :
-        jsonFail("Login information is invalid, please to login")
-    if (session['Type'] != 2) or (session['Type'] != 3) :
-        jsonFail("user type error")
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
 
     check_list = ["UserId", "FamilyId", "Type", "Domicile", "JsonData"]
     check_result = checkPostData(check_list, post_data)
@@ -283,12 +287,12 @@ def postData():
         return GetPublicKey()
     if post_data["Action"] == "GetValidateCode" :
         return GetValidateCode()
-    if post_data["Action"] == "AddFamily" :
-        return AddFamily(post_data)
-    if post_data["Action"] == "UpdateFamily" :
-        return UpdateFamily(post_data)
-    if post_data["Action"] == "ListFamily" :
-        return ListFamily()
+    if post_data["Action"] == "AddAddr" :
+        return AddAddr(post_data)
+    if post_data["Action"] == "UpdateAddr" :
+        return UpdateAddr(post_data)
+    if post_data["Action"] == "ListAddr" :
+        return ListAddr()
     if post_data["Action"] == "AddPersonnel" :
         return AddPersonnel(post_data)
     else :

@@ -122,11 +122,11 @@
 ```
 
 
-#### 添加小区房屋
+#### 添加房屋地址
 
 ##### 简要描述
 
-- 添加小区房屋
+- 添加房屋地址
 
 ##### 请求URL
 - ` http://39.108.110.77/person_manage/api `
@@ -138,7 +138,7 @@
 
 ``` 
 {
-    "Action": "AddFamily",
+    "Action": "AddAddr",
     "Community": "东风路办事处",
     "Building": "3号楼",
     "Dormitory": "303室"
@@ -166,11 +166,11 @@
 ```
 
 
-#### 更新家庭信息
+#### 更新房屋地址
 
 ##### 简要描述
 
-- 更新家庭信息
+- 更新房屋地址
 
 ##### 请求URL
 - ` http://39.108.110.77/person_manage/api `
@@ -182,10 +182,12 @@
 
 ``` 
 {
-    "Action": "UpdateFamily",
-    "FamilyId": 4,
-    "MasterName": "珍珠哥",
-    "JsonData": "{}"
+    "Action": "UpdateAddr",
+    "AddrId": 1,
+    "Community": "东风路办事处",
+    "Building": "3号楼",
+    "Dormitory": "303室",
+    "FamilyId": 0
 }
 ```
 
@@ -194,9 +196,12 @@
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
 |Action |是  |string |接口名   |
-|FamilyId |是  |int |房屋id   |
-|MasterName |是  |string |户主姓名   |
-|JsonData |是  |string |家庭信息json字符串, 内部格式随意   |
+|AddrId |是  |int |房屋地址id   |
+|Community |是  |string |社区名称   |
+|Building |是  |string |楼(幢)号   |
+|Dormitory |是  |string |户(室)号   |
+|FamilyId |否  |int |绑定的家庭id   |
+
 
 ##### 返回示例 
 
@@ -210,11 +215,11 @@
 ```
 
 
-#### 查询家庭信息列表
+#### 查询地址信息列表
 
 ##### 简要描述
 
-- 查询家庭信息列表, 管理员只能看到自己录入的, 超级管理员能看到所有
+- 查询地址信息列表, 管理员只能看到自己录入的, 超级管理员能看到所有
 
 ##### 请求URL
 - ` http://39.108.110.77/person_manage/api `
@@ -226,7 +231,7 @@
 
 ``` 
 {
-    "Action": "ListFamily"
+    "Action": "ListAddr"
 }
 ```
 
@@ -246,13 +251,12 @@
             "building": "3号楼",
             "community": "东风路办事处",
             "dormitory": "303室",
-            "id": 4,
-            "json_data": "{}",
-            "master_name": "珍珠哥"
+            "family_id": 0,
+            "id": 1
         }
     ],
     "Message": "Success",
-    "RequestId": "0cfbaea3-175e-4e8f-b52f-ed4f68d1ad09"
+    "RequestId": "bfa28710-2a8e-4c2c-a87b-7bad270d2f53"
 }
 ```
 

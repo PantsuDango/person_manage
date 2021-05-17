@@ -26,18 +26,31 @@ CREATE TABLE `register_map` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='管理员注册账号关系表';
 
 
-CREATE TABLE `family_info` (
+CREATE TABLE `addr_info` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `user_id` int(11) NOT NULL COMMENT '录入者用户id',
     `community` varchar(32) NOT NULL COMMENT '社区名称',
     `building` varchar(32) NOT NULL COMMENT '楼(幢)号',
     `dormitory` varchar(32) NOT NULL COMMENT '户(室)号',
+    `family_id` int(11) NOT NULL DEFAULT 0 COMMENT '绑定的家庭id',
+    `createtime` datetime NOT NULL COMMENT '创建时间',
+    `lastupdate` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`community`, `building`, `dormitory`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='地址信息表';
+
+
+CREATE TABLE `family_info` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL COMMENT '录入者用户id',
+    `addr_id` int(11) NOT NULL DEFAULT 0 COMMENT '绑定的地址id',
     `master_name` varchar(32) DEFAULT NULL COMMENT '户主姓名',
     `json_data` text DEFAULT NULL COMMENT '房屋信息json字符串',
     `createtime` datetime NOT NULL COMMENT '创建时间',
+    `lastupdate` datetime NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`),
-    UNIQUE KEY (`community`, `building`, `dormitory`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='房屋信息表';
+    UNIQUE KEY (`addr_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='家庭信息表';
 
 
 CREATE TABLE `personnel_info` (
@@ -48,6 +61,7 @@ CREATE TABLE `personnel_info` (
     `domicile` varchar(32) NOT NULL COMMENT '户籍所在地',
     `json_data` text DEFAULT NULL COMMENT '房屋信息json字符串',
     `createtime` datetime NOT NULL COMMENT '创建时间',
+    `lastupdate` datetime NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`),
     UNIQUE KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='居民信息表';
