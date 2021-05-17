@@ -408,7 +408,7 @@
 ``` 
 {
     "Action": "AddFamily",
-    "AddrId": 1,
+    "AddrId": 0,
     "MasterName": "珍珠哥",
     "JsonData": "{}"
 }
