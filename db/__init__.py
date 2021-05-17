@@ -119,6 +119,7 @@ class Database() :
         family = self.sql_fetch_json()
         return family
 
+
     # 写入家庭信息
     def insert_family(self, user_id, addr_id, master_name, json_data):
 
@@ -128,6 +129,24 @@ class Database() :
             VALUES (null, %d, %d, '%s', '%s', now(), now());
         """ % (user_id, addr_id, master_name, json_data)
 
+        self.cur.execute(sql)
+
+
+    # 更新家庭信息
+    def update_family(self, id, addr_id, master_name, json_data):
+
+        check_sql = """
+            select * from family_info where id=%d;
+        """%(id)
+        self.cur.execute(check_sql)
+        family = self.sql_fetch_json()
+        if not family :
+            err = "FamilyId doesn't exist"
+            return err
+
+        sql = """
+            update family_info set addr_id=%d, master_name='%s', json_data='%s', lastupdate=now() where id=%d;
+        """ % (addr_id, master_name, json_data, id)
         self.cur.execute(sql)
 
 
@@ -149,6 +168,9 @@ class Database() :
         """%(user_id, family_id, type, domicile, json_data)
 
         self.cur.execute(sql)
+
+
+
 
 
 if __name__ == "__main__" :

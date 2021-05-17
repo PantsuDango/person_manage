@@ -166,7 +166,7 @@ def UpdateAddr(post_data) :
     if "FamilyId" not in post_data :
         post_data["FamilyId"] = 0
 
-    # 更新家庭信息
+    # 更新房屋地址
     try :
         db = Database()
         err = db.update_addr(post_data["AddrId"], post_data["Community"], post_data["Building"], post_data["Dormitory"], post_data["FamilyId"])
@@ -231,6 +231,38 @@ def AddFamily(post_data) :
         return jsonFail(err)
     else:
         db.close()
+        return jsonSuccess("Success")
+
+
+# 更新家庭信息
+def UpdateFamily(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session):
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3]:
+        return jsonFail("user type error")
+
+    check_list = ["FamilyId", "JsonData"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+    if "AddrId" not in post_data :
+        post_data["AddrId"] = 0
+    if "MasterName" not in post_data :
+        post_data["MasterName"] = ""
+
+    try:
+        db = Database()
+        err = db.update_family(post_data["FamilyId"], post_data["AddrId"], post_data["MasterName"], post_data["JsonData"])
+    except Exception as err:
+        return jsonFail(err)
+    else:
+        db.close()
+        if err :
+            return jsonFail(err)
+
         return jsonSuccess("Success")
 
 
@@ -324,6 +356,8 @@ def postData():
         return ListAddr()
     if post_data["Action"] == "AddFamily" :
         return AddFamily(post_data)
+    if post_data["Action"] == "UpdateFamily" :
+        return UpdateFamily(post_data)
     if post_data["Action"] == "AddPersonnel" :
         return AddPersonnel(post_data)
     else :
