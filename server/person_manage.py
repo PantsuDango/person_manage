@@ -180,7 +180,7 @@ def UpdateAddr(post_data) :
         return jsonSuccess("Success")
 
 
-# 查询地址信息列表
+# 查询房屋地址信息列表
 def ListAddr() :
 
     # 校验请求参数是否符合预期
@@ -264,6 +264,31 @@ def UpdateFamily(post_data) :
             return jsonFail(err)
 
         return jsonSuccess("Success")
+
+
+# 查询家庭信息列表
+def ListFamily() :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
+
+    try :
+        db = Database()
+        family = db.select_family(session["ID"], session['Type'])
+    except Exception as err :
+        return jsonFail(err)
+    else :
+        db.close()
+        # 删除不需要返回给前端的参数
+        for index in range(len(family)) :
+            del family[index]["createtime"]
+            del family[index]["lastupdate"]
+            del family[index]["user_id"]
+
+        return jsonSuccess(family)
 
 
 # 注册用户
@@ -358,6 +383,8 @@ def postData():
         return AddFamily(post_data)
     if post_data["Action"] == "UpdateFamily" :
         return UpdateFamily(post_data)
+    if post_data["Action"] == "ListFamily" :
+        return ListFamily()
     if post_data["Action"] == "AddPersonnel" :
         return AddPersonnel(post_data)
     else :
