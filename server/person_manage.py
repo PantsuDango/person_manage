@@ -205,6 +205,33 @@ def ListAddr() :
         return jsonSuccess(family)
 
 
+# 添加家庭信息
+def AddFamily(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session):
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3]:
+        return jsonFail("user type error")
+
+    check_list = ["AddrId", "JsonData"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+    if "MasterName" not in post_data :
+        post_data["MasterName"] = ""
+
+    try:
+        db = Database()
+        db.insert_family(session["ID"], post_data["AddrId"], post_data["MasterName"], post_data["JsonData"])
+    except Exception as err:
+        return jsonFail(err)
+    else:
+        db.close()
+        return jsonSuccess("Success")
+
+
 # 注册用户
 def Register(post_data) :
 
@@ -293,6 +320,8 @@ def postData():
         return UpdateAddr(post_data)
     if post_data["Action"] == "ListAddr" :
         return ListAddr()
+    if post_data["Action"] == "AddFamily" :
+        return AddFamily(post_data)
     if post_data["Action"] == "AddPersonnel" :
         return AddPersonnel(post_data)
     else :

@@ -119,6 +119,17 @@ class Database() :
         family = self.sql_fetch_json()
         return family
 
+    # 写入家庭信息
+    def insert_family(self, user_id, addr_id, master_name, json_data):
+
+        sql = """
+            INSERT INTO `family_info` 
+            (id, user_id, addr_id, master_name, json_data, createtime, lastupdate) 
+            VALUES (null, %d, %d, '%s', '%s', now(), now());
+        """ % (user_id, addr_id, master_name, json_data)
+
+        self.cur.execute(sql)
+
 
     def insert_user(self, username, password, type) :
 
