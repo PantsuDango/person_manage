@@ -23,9 +23,7 @@ def jsonFail(message) :
         "Message": str(message),
         "RequestId": str(uuid.uuid4())
     }
-
     return jsonify(post_data)
-
 
 
 # 成功的返回
@@ -37,7 +35,6 @@ def jsonSuccess(data) :
         "RequestId": str(uuid.uuid4()),
         "Data": data
     }
-
     return jsonify(post_data)
 
 
@@ -72,7 +69,6 @@ def Login(post_data) :
         if post_data["Password"] == "解密失败" :
             return jsonFail('password ras decryption error')
 
-
     # 数据库校验账号密码是否正确
     try :
         db = Database()
@@ -83,7 +79,6 @@ def Login(post_data) :
         db.close()
         if err :
             return jsonFail(err)
-
 
     # 保存登录信息
     session['ID'] = user["id"]
@@ -108,7 +103,6 @@ def Logout() :
 
     session.clear()
     return jsonSuccess("Success")
-
 
 
 # 获取rsa公钥
@@ -265,12 +259,11 @@ def AddPersonnel(post_data) :
         return jsonSuccess("Success")
 
 
-
-
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
 
+    # 接收前端请求
     try :
         post_data = request.get_data()
         post_data = json.loads(post_data.decode("utf-8"))
