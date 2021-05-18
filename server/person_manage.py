@@ -358,6 +358,37 @@ def AddPersonnel(post_data) :
         return jsonSuccess("Success")
 
 
+# 更新用户信息
+def UpdatePersonnel(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        return jsonFail("Login information is invalid, please to login")
+
+    check_list = ["PersonnelId", "JsonData"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+    if "UserId" not in post_data :
+        post_data["UserId"] = 0
+    if "Type" not in post_data :
+        post_data["Type"] = 0
+    if "Domicile" not in post_data :
+        post_data["Domicile"] = ""
+
+    try :
+        db = Database()
+        err = db.update_personnel(post_data["PersonnelId"], post_data["UserId"], post_data["Type"], post_data["Domicile"], post_data["JsonData"])
+    except Exception as err :
+        return jsonFail(err)
+    else :
+        if err :
+            return jsonFail(err)
+        db.close()
+        return jsonSuccess("Success")
+
+
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
@@ -376,38 +407,41 @@ def postData():
     if post_data["Action"] == "Register" :
         return Register(post_data)
     # 登录
-    if post_data["Action"] == "Login" :
+    elif post_data["Action"] == "Login" :
         return Login(post_data)
     # 登出
-    if post_data["Action"] == "Logout" :
+    elif post_data["Action"] == "Logout" :
         return Logout()
     # 获取公钥
-    if post_data["Action"] == "GetPublicKey" :
+    elif post_data["Action"] == "GetPublicKey" :
         return GetPublicKey()
     # 获取验证码图片
-    if post_data["Action"] == "GetValidateCode" :
+    elif post_data["Action"] == "GetValidateCode" :
         return GetValidateCode()
     # 添加房屋地址
-    if post_data["Action"] == "AddAddr" :
+    elif post_data["Action"] == "AddAddr" :
         return AddAddr(post_data)
     # 更新房屋地址
-    if post_data["Action"] == "UpdateAddr" :
+    elif post_data["Action"] == "UpdateAddr" :
         return UpdateAddr(post_data)
     # 查询房屋地址列表
-    if post_data["Action"] == "ListAddr" :
+    elif post_data["Action"] == "ListAddr" :
         return ListAddr()
     # 添加房屋家庭信息
-    if post_data["Action"] == "AddFamily" :
+    elif post_data["Action"] == "AddFamily" :
         return AddFamily(post_data)
     # 更新家庭信息
-    if post_data["Action"] == "UpdateFamily" :
+    elif post_data["Action"] == "UpdateFamily" :
         return UpdateFamily(post_data)
     # 查看家庭信息列表
-    if post_data["Action"] == "ListFamily" :
+    elif post_data["Action"] == "ListFamily" :
         return ListFamily()
     # 添加人员信息
-    if post_data["Action"] == "AddPersonnel" :
+    elif post_data["Action"] == "AddPersonnel" :
         return AddPersonnel(post_data)
+    # 更新人员信息
+    elif post_data["Action"] == "UpdatePersonnel":
+        return UpdatePersonnel(post_data)
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 

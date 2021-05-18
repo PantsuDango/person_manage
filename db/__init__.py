@@ -196,8 +196,22 @@ class Database() :
 
         self.cur.execute(sql)
 
+    # 更新人员信息
+    def update_personnel(self, id, user_id, type, domicile, json_data):
 
+        check_sql = """
+            select * from personnel_info where id=%d;
+        """%(id)
+        self.cur.execute(check_sql)
+        family = self.sql_fetch_json()
+        if not family:
+            err = "PersonnelId doesn't exist"
+            return err
 
+        sql = """
+            update personnel_info set user_id=%d, type=%d, domicile='%s', json_data='%s', lastupdate=now() where id=%d;
+        """%(user_id, type, domicile, json_data, id)
+        self.cur.execute(sql)
 
 
 if __name__ == "__main__" :
