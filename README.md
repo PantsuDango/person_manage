@@ -627,3 +627,66 @@
     "RequestId": "2652c7e8-a4ae-49c5-bddd-037b157b4008"
 }
 ```
+
+
+#### 获取账号列表
+
+##### 简要描述
+
+- 获取账号列表, 超级管理员能看到所有账号, 普通管理员能看到自己注册的账号
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "ListUser"
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": [
+        {
+            "id": 1,
+            "password": "123456",
+            "type": 3,
+            "username": "root"
+        },
+        {
+            "id": 2,
+            "password": "123456",
+            "type": 2,
+            "username": "admin"
+        },
+        {
+            "id": 6,
+            "password": "123456",
+            "type": 2,
+            "username": "123123"
+        },
+        {
+            "id": 7,
+            "password": "123456",
+            "type": 1,
+            "username": "inyin"
+        }
+    ],
+    "Message": "Success",
+    "RequestId": "8a04a02a-6f28-4ef6-bba4-94b3977644b9"
+}
+```

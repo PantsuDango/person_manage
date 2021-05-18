@@ -274,6 +274,34 @@ class Database() :
 
         return result
 
+    # 查询账号列表
+    def select_user(self, user_id, type) :
+
+        if type == 3 :
+            sql = """
+                select * from user_info where status=0;
+            """
+            self.cur.execute(sql)
+            result = self.sql_fetch_json()
+
+        else :
+            sql = """
+                select * from register_map where register_id=%d;
+            """%(user_id)
+            self.cur.execute(sql)
+            rows = self.sql_fetch_json()
+
+            result = []
+            for row in rows :
+                id = row["registered_id"]
+                sql = """
+                    select * from user_info where id=%d and status=0;
+                """%id
+                self.cur.execute(sql)
+                user_info = self.sql_fetch_json()
+                result += user_info
+
+        return result
 
 if __name__ == "__main__" :
 

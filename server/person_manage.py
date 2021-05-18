@@ -440,6 +440,30 @@ def ListPersonnel() :
             return jsonSuccess(result)
 
 
+# 获取账号列表
+def ListUser() :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
+
+    try:
+        db = Database()
+        result = db.select_user(session["ID"], session["Type"])
+    except Exception as err:
+        return jsonFail(err)
+    else:
+        for index in range(len(result)) :
+            del result[index]["createtime"]
+            del result[index]["lastupdate"]
+            del result[index]["status"]
+
+        db.close()
+        return jsonSuccess(result)
+
+
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
@@ -496,6 +520,9 @@ def postData():
     # 更新人员信息
     elif post_data["Action"] == "ListPersonnel":
         return ListPersonnel()
+    # 更新人员信息
+    elif post_data["Action"] == "ListUser":
+        return ListUser()
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 
