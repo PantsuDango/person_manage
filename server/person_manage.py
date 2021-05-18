@@ -334,10 +334,17 @@ def AddPersonnel(post_data) :
     if session['Type'] not in [2, 3] :
         return jsonFail("user type error")
 
-    check_list = ["UserId", "FamilyId", "Type", "Domicile", "JsonData"]
+    check_list = ["FamilyId", "JsonData"]
     check_result = checkPostData(check_list, post_data)
     if check_result:
         return jsonFail(check_result)
+
+    if "UserId" not in post_data :
+        post_data["UserId"] = 0
+    if "Type" not in post_data :
+        post_data["Type"] = 0
+    if "Domicile" not in post_data :
+        post_data["Domicile"] = ""
 
     try :
         db = Database()

@@ -180,8 +180,8 @@ class Database() :
     def insert_personnel(self, user_id, family_id, type, domicile, json_data) :
 
         sql = """
-            INSERT INTO `personnel_info` (id, user_id, family_id, type, domicile, json_data, createtime) 
-            VALUES (null, %d, %d, %d, '%s', '%s', now());
+            INSERT INTO `personnel_info` (id, user_id, family_id, type, domicile, json_data, createtime, lastupdate) 
+            VALUES (null, %d, %d, %d, '%s', '%s', now(), now());
         """%(user_id, family_id, type, domicile, json_data)
 
         self.cur.execute(sql)
