@@ -177,7 +177,17 @@ class Database() :
         self.cur.execute(sql)
 
 
+    # 添加人员信息
     def insert_personnel(self, user_id, family_id, type, domicile, json_data) :
+
+        check_sql = """
+            select * from family_info where id=%d;
+        """%(family_id)
+        self.cur.execute(check_sql)
+        family = self.sql_fetch_json()
+        if not family:
+            err = "FamilyId doesn't exist"
+            return err
 
         sql = """
             INSERT INTO `personnel_info` (id, user_id, family_id, type, domicile, json_data, createtime, lastupdate) 

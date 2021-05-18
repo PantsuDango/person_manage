@@ -61,6 +61,5 @@ CREATE TABLE `personnel_info` (
     `json_data` text DEFAULT NULL COMMENT '房屋信息json字符串',
     `createtime` datetime NOT NULL COMMENT '创建时间',
     `lastupdate` datetime NOT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY (`user_id`)
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='居民信息表';

@@ -348,10 +348,12 @@ def AddPersonnel(post_data) :
 
     try :
         db = Database()
-        db.insert_personnel(post_data["UserId"], post_data["FamilyId"], post_data["Type"], post_data["Domicile"], post_data["JsonData"])
+        err = db.insert_personnel(post_data["UserId"], post_data["FamilyId"], post_data["Type"], post_data["Domicile"], post_data["JsonData"])
     except Exception as err :
         return jsonFail(err)
     else :
+        if err :
+            return jsonFail(err)
         db.close()
         return jsonSuccess("Success")
 
