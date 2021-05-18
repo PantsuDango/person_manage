@@ -572,3 +572,56 @@
     "RequestId": "33179a4a-882e-415b-86ff-a7a69c9b000b"
 }
 ```
+
+
+#### 查询人员信息列表
+
+##### 简要描述
+
+- 查询人员信息列表, 普通用户只能看到自己的, 管理员只能看到自己录入的, 超级管理员能看到所有
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "ListPersonnel"
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": [
+        {
+            "addr_id": 0,
+            "id": 1,
+            "json_data": "{}",
+            "master_name": "珍珠哥",
+            "personnel_info": [
+                {
+                    "domicile": "海南儋州",
+                    "id": 1,
+                    "json_data": "{}",
+                    "type": 1
+                }
+            ]
+        }
+    ],
+    "Message": "Success",
+    "RequestId": "2652c7e8-a4ae-49c5-bddd-037b157b4008"
+}
+```

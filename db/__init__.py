@@ -214,6 +214,40 @@ class Database() :
         self.cur.execute(sql)
 
 
+    # 查询个人信息列表
+    def select_personnel(self, family_id) :
+
+        sql = """
+            select * from personnel_info where family_id=%d
+        """%(family_id)
+        self.cur.execute(sql)
+        family = self.sql_fetch_json()
+        return family
+
+
+    # 普通用户登录查询用户信息
+    def select_personnel_by_normal_user(self, user_id) :
+
+        sql = """
+            select * from personnel_info where user_id=%d
+        """%(user_id)
+        self.cur.execute(sql)
+        personnel = self.sql_fetch_json()
+
+        result = {}
+        if personnel :
+            result["personnel_info"] = personnel[0]
+            sql = """
+                select * from family_info where id=%d
+            """%personnel[0]["family_id"]
+            self.cur.execute(sql)
+            family = self.sql_fetch_json()
+            if family:
+                result["family_info"] = family
+
+        return result
+
+
 if __name__ == "__main__" :
 
     db = Database()

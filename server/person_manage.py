@@ -389,6 +389,53 @@ def UpdatePersonnel(post_data) :
         return jsonSuccess("Success")
 
 
+# 查询家庭信息列表
+def ListPersonnel() :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        return jsonFail("Login information is invalid, please to login")
+
+    # 如果是管理员登录
+    if session["Type"] in [2, 3] :
+        try :
+            db = Database()
+            family = db.select_family(session["ID"], session['Type'])
+            for index, tmp in enumerate(family) :
+                # 查询个人信息
+                personnel = db.select_personnel(tmp["id"])
+                # 删除不需要返回给前端的参数
+                for index in range(len(personnel)) :
+                    del personnel[index]["createtime"]
+                    del personnel[index]["lastupdate"]
+                    del personnel[index]["family_id"]
+                    del personnel[index]["user_id"]
+                family[index]["personnel_info"] = personnel
+
+                # 删除不需要返回给前端的参数
+                for index in range(len(family)):
+                    del family[index]["createtime"]
+                    del family[index]["lastupdate"]
+                    del family[index]["user_id"]
+
+        except Exception as err :
+            return jsonFail(err)
+        else :
+            db.close()
+            return jsonSuccess(family)
+
+    # 如果是普通用户登录
+    else :
+        try :
+            db = Database()
+            result = db.select_personnel_by_normal_user(session["ID"])
+        except Exception as err:
+            return jsonFail(err)
+        else:
+            db.close()
+            return jsonSuccess(result)
+
+
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
@@ -442,6 +489,9 @@ def postData():
     # 更新人员信息
     elif post_data["Action"] == "UpdatePersonnel":
         return UpdatePersonnel(post_data)
+    # 更新人员信息
+    elif post_data["Action"] == "ListPersonnel":
+        return ListPersonnel()
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 
