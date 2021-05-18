@@ -363,28 +363,40 @@ def postData():
     if "Action" not in post_data :
         return jsonFail("Action must exist, but it does not")
 
+    # 注册
     if post_data["Action"] == "Register" :
         return Register(post_data)
+    # 登录
     if post_data["Action"] == "Login" :
         return Login(post_data)
+    # 登出
     if post_data["Action"] == "Logout" :
         return Logout()
+    # 获取公钥
     if post_data["Action"] == "GetPublicKey" :
         return GetPublicKey()
+    # 获取验证码图片
     if post_data["Action"] == "GetValidateCode" :
         return GetValidateCode()
+    # 添加房屋地址
     if post_data["Action"] == "AddAddr" :
         return AddAddr(post_data)
+    # 更新房屋地址
     if post_data["Action"] == "UpdateAddr" :
         return UpdateAddr(post_data)
+    # 查询房屋地址列表
     if post_data["Action"] == "ListAddr" :
         return ListAddr()
+    # 添加房屋家庭信息
     if post_data["Action"] == "AddFamily" :
         return AddFamily(post_data)
+    # 更新家庭信息
     if post_data["Action"] == "UpdateFamily" :
         return UpdateFamily(post_data)
+    # 查看家庭信息列表
     if post_data["Action"] == "ListFamily" :
         return ListFamily()
+    # 添加人员信息
     if post_data["Action"] == "AddPersonnel" :
         return AddPersonnel(post_data)
     else :
