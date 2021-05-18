@@ -280,7 +280,8 @@
     "Action": "Register",
     "UserName": "inyin",
     "Password": "123456",
-    "Type": 1
+    "Type": 1,
+    "PersonnelId": 1
 }
 ```
 
@@ -292,6 +293,7 @@
 |UserName |是  |string |登录用户名   |
 |Password |否  |string |登录密码, 不传时默认为123456   |
 |Type |是  |int |账号类型: 1-普通用户, 2-普通管理员, 3-超级管理员   |
+|PersonnelId |否  |int |账户绑定的用户信息, 如果注册的账户类型为普通用户, 则必须传递   |
 
 ##### 返回示例 
 

@@ -167,13 +167,40 @@ class Database() :
         return family
 
 
-    def insert_user(self, username, password, type) :
+    def insert_user(self, register_id, username, password, type, personnel_id) :
+
+        if type == 1 :
+            check_sql = """
+                select * from personnel_info where id=%d;
+            """%(personnel_id)
+            self.cur.execute(check_sql)
+            rows = self.sql_fetch_json()
+            if not rows :
+                err = "PersonnelId doesn't exist"
+                return err
 
         sql = """
             INSERT INTO `user_info` (id, username, password, type, status, createtime, lastupdate) 
             VALUES (null, '%s', '%s', %d, 0, now(), now());
         """%(username, password, type)
+        self.cur.execute(sql)
 
+        sql = """
+            select * from user_info where username='%s';
+        """ % (username)
+        self.cur.execute(sql)
+        rows = self.sql_fetch_json()
+
+        if type == 1 :
+            sql = """
+                update personnel_info set user_id=%d where id=%d;
+            """%(rows[0]["id"], personnel_id)
+            self.cur.execute(sql)
+
+        sql = """
+            INSERT INTO `register_map` (id, register_id, registered_id, createtime) 
+            VALUES (null, %d, %d, now());
+        """%(register_id, rows[0]["id"])
         self.cur.execute(sql)
 
 
@@ -229,7 +256,7 @@ class Database() :
     def select_personnel_by_normal_user(self, user_id) :
 
         sql = """
-            select * from personnel_info where user_id=%d
+            select * from personnel_info where user_id=%d;
         """%(user_id)
         self.cur.execute(sql)
         personnel = self.sql_fetch_json()
@@ -238,7 +265,7 @@ class Database() :
         if personnel :
             result["personnel_info"] = personnel[0]
             sql = """
-                select * from family_info where id=%d
+                select * from family_info where id=%d;
             """%personnel[0]["family_id"]
             self.cur.execute(sql)
             family = self.sql_fetch_json()

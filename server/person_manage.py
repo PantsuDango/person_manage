@@ -314,13 +314,17 @@ def Register(post_data) :
         return jsonFail("user type error")
     if post_data["Type"] not in [1, 2, 3] :
         return jsonFail("user type error")
+    if post_data["Type"] == 1 and "PersonnelId" not in post_data :
+        return jsonFail("PersonnelId must exist")
 
     try :
         db = Database()
-        db.insert_user(post_data["UserName"], post_data["Password"], post_data["Type"])
+        err = db.insert_user(session["ID"], post_data["UserName"], post_data["Password"], post_data["Type"], post_data["PersonnelId"])
     except Exception as err :
         return jsonFail(err)
     else :
+        if err :
+            return jsonFail(err)
         db.close()
         return jsonSuccess("Success")
 
