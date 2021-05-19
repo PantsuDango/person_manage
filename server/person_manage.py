@@ -405,6 +405,7 @@ def ListPersonnel() :
     # 如果是管理员登录
     if session["Type"] in [2, 3] :
         try :
+            result = []
             db = Database()
             family = db.select_family(session["ID"], session['Type'])
             for index, tmp in enumerate(family) :
@@ -414,22 +415,13 @@ def ListPersonnel() :
                 for index in range(len(personnel)) :
                     del personnel[index]["createtime"]
                     del personnel[index]["lastupdate"]
-                    del personnel[index]["family_id"]
-                    del personnel[index]["user_id"]
-                family[index]["personnel_info"] = personnel
-
-                # 删除不需要返回给前端的参数
-            for index in range(len(family)):
-                del family[index]["createtime"]
-                del family[index]["lastupdate"]
-                del family[index]["user_id"]
+                result.append(personnel)
 
         except Exception as err :
-            print_exc()
             return jsonFail(err)
         else :
             db.close()
-            return jsonSuccess(family)
+            return jsonSuccess(result)
 
     # 如果是普通用户登录
     else :

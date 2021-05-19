@@ -608,23 +608,38 @@
 {
     "Code": 0,
     "Data": [
-        {
-            "addr_id": 0,
-            "id": 1,
-            "json_data": "{}",
-            "master_name": "珍珠哥",
-            "personnel_info": [
-                {
-                    "domicile": "海南儋州",
-                    "id": 1,
-                    "json_data": "{}",
-                    "type": 1
-                }
-            ]
-        }
+        [
+            {
+                "domicile": "海南儋州",
+                "family_id": 1,
+                "id": 1,
+                "json_data": "{}",
+                "type": 1,
+                "user_id": 7
+            },
+            {
+                "domicile": "123",
+                "family_id": 1,
+                "id": 3,
+                "json_data": "{\"IDCard\":\"1123\",\"ID\":\"编号编号\",\"Name\":\"姓姓姓\",\"NameTip\":\"名首字母名首字母\",\"Sex\":\"0\",\"Birthday\":\"2021-05-03T16:00:00.000Z\",\"Birthplace\":\"出生地出生地\",\"Relationship\":\"姻关系\",\"Matrimony\":\"姻关系\",\"Phone\":\"联系电\",\"Healthly\":\"联系电\",\"PeosonHeight\":\"联系电\",\"BloodTypes\":\"123\",\"Nationality\":\"123\",\"Education\":\"q21\",\"Politics\":\"123\",\"CensusRegister\":\"\",\"Address\":\"123\",\"Residences\":\"出生地出生地\",\"Profession\":\"123\",\"Job\":\"123\",\"OldName\":\"曾用名曾用名\",\"Desc\":\"123\"}",
+                "type": 1,
+                "user_id": 0
+            }
+        ],
+        [
+            {
+                "domicile": "qwe",
+                "family_id": 6,
+                "id": 2,
+                "json_data": "{\"IDCard\":\"123\",\"ID\":\"123\",\"Name\":\"123\",\"NameTip\":\"qew\",\"Sex\":\"0\",\"Birthday\":\"2021-04-12T16:00:00.000Z\",\"Birthplace\":\"qwe\",\"Relationship\":\"qwe\",\"Matrimony\":\"qwe\",\"Phone\":\"qweqw\",\"Healthly\":\"qqq\",\"PeosonHeight\":\"qwe\",\"BloodTypes\":\"qwe\",\"Nationality\":\"qwe\",\"Education\":\"qwe\",\"Politics\":\"eqwe\",\"CensusRegister\":\"\",\"Address\":\"qwe\",\"Residences\":\"qwe\",\"Profession\":\"qwe\",\"Job\":\"qwe\",\"OldName\":\"123\",\"Desc\":\"qwe\"}",
+                "type": 0,
+                "user_id": 0
+            }
+        ],
+        []
     ],
     "Message": "Success",
-    "RequestId": "2652c7e8-a4ae-49c5-bddd-037b157b4008"
+    "RequestId": "bbf35f6c-39e9-4bbe-82b2-4a0e986fc5b4"
 }
 ```
 
