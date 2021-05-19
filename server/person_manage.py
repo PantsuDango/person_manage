@@ -419,12 +419,13 @@ def ListPersonnel() :
                 family[index]["personnel_info"] = personnel
 
                 # 删除不需要返回给前端的参数
-                for index in range(len(family)):
-                    del family[index]["createtime"]
-                    del family[index]["lastupdate"]
-                    del family[index]["user_id"]
+            for index in range(len(family)):
+                del family[index]["createtime"]
+                del family[index]["lastupdate"]
+                del family[index]["user_id"]
 
         except Exception as err :
+            print_exc()
             return jsonFail(err)
         else :
             db.close()
