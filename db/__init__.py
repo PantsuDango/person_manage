@@ -127,9 +127,29 @@ class Database() :
             INSERT INTO `family_info` 
             (id, user_id, addr_id, master_name, json_data, createtime, lastupdate) 
             VALUES (null, %d, %d, '%s', '%s', now(), now());
-        """ % (user_id, addr_id, master_name, json_data)
-
+        """%(user_id, addr_id, master_name, json_data)
         self.cur.execute(sql)
+
+        if addr_id > 0 :
+            check_sql = """
+                        select * from addr_info where id=%d;
+                    """ % (id)
+            self.cur.execute(check_sql)
+            family = self.sql_fetch_json()
+            if not family:
+                err = "AddrId doesn't exist"
+                return err
+
+            sql = """
+                select * from family_info order by id desc limit 1;
+            """
+            self.cur.execute(sql)
+            family_info = self.sql_fetch_json()
+
+            sql = """
+                update addr_info set family_id=%d, lastupdate=now() where id=%d;
+            """%(family_info[0]["id"], addr_id)
+            self.cur.execute(sql)
 
 
     # 更新家庭信息
@@ -148,6 +168,27 @@ class Database() :
             update family_info set addr_id=%d, master_name='%s', json_data='%s', lastupdate=now() where id=%d;
         """ % (addr_id, master_name, json_data, id)
         self.cur.execute(sql)
+
+        if addr_id > 0:
+            check_sql = """
+                select * from addr_info where id=%d;
+            """ % (id)
+            self.cur.execute(check_sql)
+            family = self.sql_fetch_json()
+            if not family:
+                err = "AddrId doesn't exist"
+                return err
+
+            sql = """
+                select * from family_info order by id desc limit 1;
+            """
+            self.cur.execute(sql)
+            family_info = self.sql_fetch_json()
+
+            sql = """
+                update addr_info set family_id=%d, lastupdate=now() where id=%d;
+            """ % (family_info[0]["id"], addr_id)
+            self.cur.execute(sql)
 
 
     # 查询家庭信息列表
@@ -245,7 +286,7 @@ class Database() :
     def select_personnel(self, family_id) :
 
         sql = """
-            select * from personnel_info where family_id=%d
+            select * from personnel_info where family_id=%d;
         """%(family_id)
         self.cur.execute(sql)
         family = self.sql_fetch_json()
@@ -302,6 +343,104 @@ class Database() :
                 result += user_info
 
         return result
+
+    # 信息检索
+    def select_info(self, user_id, type, post_data) :
+
+        if type == 3 :
+            sql = """
+                select * from addr_info where family_id != 0;
+            """
+        else :
+            sql = """
+                select * from addr_info where family_id != 0 and user_id=%d;
+            """%user_id
+        self.cur.execute(sql)
+        rows = self.sql_fetch_json()
+
+        addr_info = []
+        if "Community" in post_data :
+            for row in rows :
+                if post_data["Community"] in row["community"] :
+                    addr_info.append(row)
+        else :
+            addr_info = rows
+
+        rows = []
+        for row in addr_info :
+            sql = """
+                select * from family_info where addr_id=%d;
+            """%(row["family_id"])
+            self.cur.execute(sql)
+            tmp = self.sql_fetch_json()
+            if tmp :
+                tmp[0]["community"] = row["community"]
+            rows += tmp
+
+        family_info = []
+        if "MasterName" in post_data :
+            for row in rows :
+                if post_data["MasterName"] in row["master_name"] :
+                    family_info.append(row)
+        else :
+            family_info = rows
+
+        rows = []
+        for row in family_info :
+            sql = """
+                select * from personnel_info where family_id=%d;
+            """%(row["id"])
+            self.cur.execute(sql)
+            tmp = self.sql_fetch_json()
+            if tmp :
+                for index in range(len(tmp)) :
+                    tmp[index]["master_name"] = row["master_name"]
+            rows += tmp
+
+        personnel_info = []
+        if "Type" in post_data :
+            for row in rows :
+                if post_data["Type"] == row["type"] :
+                    personnel_info.append(row)
+        else :
+            personnel_info = rows
+
+        result = []
+        if "Domicile" in post_data :
+            for row in personnel_info :
+                if post_data["Domicile"] in row["domicile"] :
+                    result.append(row)
+        else :
+            result = personnel_info
+
+        for index in range(len(result)) :
+            del result[index]["createtime"]
+            del result[index]["lastupdate"]
+
+        return result
+
+
+    def select_family_info(self, id) :
+
+        sql = """
+            select * from family_info where id=%d;
+        """%id
+        self.cur.execute(sql)
+        family_info = self.sql_fetch_json()
+
+        sql = """
+            select * from personnel_info where family_id=%d;
+        """%id
+        self.cur.execute(sql)
+        personnel_info = self.sql_fetch_json()
+        
+        result = {}
+        if family_info :
+            result["family_info"] = family_info[0]
+        result["personnel_info"] = personnel_info
+        
+        return result
+
 
 if __name__ == "__main__" :
 

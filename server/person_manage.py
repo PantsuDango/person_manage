@@ -226,10 +226,12 @@ def AddFamily(post_data) :
 
     try:
         db = Database()
-        db.insert_family(session["ID"], post_data["AddrId"], post_data["MasterName"], post_data["JsonData"])
+        err = db.insert_family(session["ID"], post_data["AddrId"], post_data["MasterName"], post_data["JsonData"])
     except Exception as err:
         return jsonFail(err)
-    else:
+    else :
+        if err :
+            return jsonFail(err)
         db.close()
         return jsonSuccess("Success")
 
@@ -464,6 +466,47 @@ def ListUser() :
         return jsonSuccess(result)
 
 
+# 信息检索
+def SelectInfo(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
+
+    try:
+        db = Database()
+        result = db.select_info(session["ID"], session["Type"], post_data)
+    except Exception as err:
+        return jsonFail(err)
+    else:
+        db.close()
+        return jsonSuccess(result)
+
+
+# 查询家庭详情
+def FamilyInfo(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session):
+        return jsonFail("Login information is invalid, please to login")
+
+    check_list = ["FamilyId"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+    try:
+        db = Database()
+        result = db.select_family_info(post_data["FamilyId"])
+    except Exception as err:
+        return jsonFail(err)
+    else:
+        db.close()
+        return jsonSuccess(result)
+
+
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
@@ -523,6 +566,12 @@ def postData():
     # 更新人员信息
     elif post_data["Action"] == "ListUser":
         return ListUser()
+    # 信息检索
+    elif post_data["Action"] == "SelectInfo":
+        return SelectInfo(post_data)
+    # 查询家庭详情
+    elif post_data["Action"] == "FamilyInfo":
+        return FamilyInfo(post_data)
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 

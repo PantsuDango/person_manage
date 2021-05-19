@@ -690,3 +690,65 @@
     "RequestId": "8a04a02a-6f28-4ef6-bba4-94b3977644b9"
 }
 ```
+
+
+#### 查询家庭详情
+
+##### 简要描述
+
+- 查询家庭详情
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "FamilyInfo",
+    "FamilyId": 1
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|FamilyId |是  |int |家庭id   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": {
+        "family_info": {
+            "addr_id": 1,
+            "createtime": "Mon, 17 May 2021 23:53:12 GMT",
+            "id": 1,
+            "json_data": "{}",
+            "lastupdate": "Tue, 18 May 2021 00:10:51 GMT",
+            "master_name": "珍珠哥",
+            "user_id": 2
+        },
+        "personnel_info": [
+            {
+                "createtime": "Tue, 18 May 2021 22:32:35 GMT",
+                "domicile": "海南儋州",
+                "family_id": 1,
+                "id": 1,
+                "json_data": "{}",
+                "lastupdate": "Tue, 18 May 2021 22:51:40 GMT",
+                "type": 1,
+                "user_id": 7
+            }
+        ]
+    },
+    "Message": "Success",
+    "RequestId": "662b06e4-9c45-4e01-a6d6-87ff6a71d2b5"
+}
+```
