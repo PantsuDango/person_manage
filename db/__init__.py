@@ -132,8 +132,8 @@ class Database() :
 
         if addr_id > 0 :
             check_sql = """
-                        select * from addr_info where id=%d;
-                    """ % (id)
+                select * from addr_info where id=%d;
+            """%(addr_id)
             self.cur.execute(check_sql)
             family = self.sql_fetch_json()
             if not family:
