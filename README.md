@@ -752,3 +752,61 @@
     "RequestId": "662b06e4-9c45-4e01-a6d6-87ff6a71d2b5"
 }
 ```
+
+
+#### 信息检索
+
+##### 简要描述
+
+- 信息检索
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "SelectInfo",
+    "Community": "东风路",
+    "Type": 1,
+    "Domicile": "海南",
+    "MasterName": "珍珠"
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|Community |否  |string |社区名称, 模糊匹配   |
+|Type |否  |int |人口类型   |
+|Domicile |否  |string |籍贯, 模糊匹配   |
+|MasterName |否  |string |户主姓名, 模糊匹配   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": [
+        {
+            "community": "东风路办事处",
+            "domicile": "海南儋州",
+            "family_id": 1,
+            "family_json_data": "{}",
+            "id": 1,
+            "master_name": "珍珠哥",
+            "personnel_json_data": "{}",
+            "type": 1,
+            "user_id": 7
+        }
+    ],
+    "Message": "Success",
+    "RequestId": "2b402953-aa4e-42bc-91cc-522b222ae1d9"
+}
+```

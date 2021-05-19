@@ -395,6 +395,8 @@ class Database() :
             if tmp :
                 for index in range(len(tmp)) :
                     tmp[index]["master_name"] = row["master_name"]
+                    tmp[index]["community"] = row["community"]
+                    tmp[index]["family_json_data"] = row["json_data"]
             rows += tmp
 
         personnel_info = []
@@ -414,12 +416,15 @@ class Database() :
             result = personnel_info
 
         for index in range(len(result)) :
+            result[index]["personnel_json_data"] = result[index]["json_data"]
+            del result[index]["json_data"]
             del result[index]["createtime"]
             del result[index]["lastupdate"]
 
         return result
 
 
+    # 查询家庭详情
     def select_family_info(self, id) :
 
         sql = """
