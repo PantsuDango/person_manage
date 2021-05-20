@@ -132,7 +132,7 @@ def AddAddr(post_data) :
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     check_list = ["Community", "Building", "Dormitory"]
     check_result = checkPostData(check_list, post_data)
@@ -156,7 +156,7 @@ def UpdateAddr(post_data) :
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     check_list = ["AddrId", "Community", "Building", "Dormitory"]
     check_result = checkPostData(check_list, post_data)
@@ -187,7 +187,7 @@ def ListAddr() :
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     try :
         db = Database()
@@ -212,7 +212,7 @@ def AddFamily(post_data) :
     if ("ID" not in session) or ("Type" not in session):
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3]:
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     check_list = ["JsonData"]
     check_result = checkPostData(check_list, post_data)
@@ -243,7 +243,7 @@ def UpdateFamily(post_data) :
     if ("ID" not in session) or ("Type" not in session):
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3]:
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     check_list = ["FamilyId", "JsonData"]
     check_result = checkPostData(check_list, post_data)
@@ -275,7 +275,7 @@ def ListFamily() :
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     try :
         db = Database()
@@ -300,7 +300,7 @@ def Register(post_data) :
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     check_list = ["UserName", "Type"]
     check_result = checkPostData(check_list, post_data)
@@ -311,11 +311,11 @@ def Register(post_data) :
         post_data["Password"] = "123456"
 
     if post_data["Type"] == 3 :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
     if post_data["Type"] == 2 and session['Type'] != 3 :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
     if post_data["Type"] not in [1, 2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
     if post_data["Type"] == 1 and "PersonnelId" not in post_data :
         return jsonFail("PersonnelId must exist")
 
@@ -338,7 +338,7 @@ def AddPersonnel(post_data) :
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     check_list = ["FamilyId", "JsonData"]
     check_result = checkPostData(check_list, post_data)
@@ -442,7 +442,7 @@ def ListUser() :
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     try:
         db = Database()
@@ -466,7 +466,7 @@ def SelectInfo(post_data) :
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     try:
         db = Database()
@@ -508,7 +508,7 @@ def ModifyUser(post_data) :
     if ("ID" not in session) or ("Type" not in session):
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     check_list = ["UserId", "Password"]
     check_result = checkPostData(check_list, post_data)
@@ -534,7 +534,7 @@ def DeleteUser(post_data) :
     if ("ID" not in session) or ("Type" not in session):
         return jsonFail("Login information is invalid, please to login")
     if session['Type'] not in [2, 3] :
-        return jsonFail("user type error")
+        return jsonFail("暂无权限访问")
 
     check_list = ["UserId"]
     check_result = checkPostData(check_list, post_data)

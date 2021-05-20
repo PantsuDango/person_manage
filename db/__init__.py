@@ -315,7 +315,7 @@ class Database() :
 
         result = {}
         if personnel :
-            result["personnel_info"] = personnel[0]
+            result["personnel_info"] = personnel
             sql = """
                 select * from family_info where id=%d;
             """%personnel[0]["family_id"]
