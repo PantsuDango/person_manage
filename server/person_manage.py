@@ -472,6 +472,7 @@ def SelectInfo(post_data) :
         db = Database()
         result = db.select_info(session["ID"], session["Type"], post_data)
     except Exception as err:
+        print_exc()
         return jsonFail(err)
     else:
         db.close()

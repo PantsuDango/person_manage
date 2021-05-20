@@ -172,7 +172,7 @@ class Database() :
         if addr_id > 0:
             check_sql = """
                 select * from addr_info where id=%d;
-            """ % (id)
+            """%(id)
             self.cur.execute(check_sql)
             family = self.sql_fetch_json()
             if not family:
@@ -370,11 +370,12 @@ class Database() :
         for row in addr_info :
             sql = """
                 select * from family_info where addr_id=%d;
-            """%(row["family_id"])
+            """%(row["id"])
             self.cur.execute(sql)
             tmp = self.sql_fetch_json()
             if tmp :
-                tmp[0]["community"] = row["community"]
+                for index in range(len(tmp)) :
+                    tmp[index]["community"] = row["community"]
             rows += tmp
 
         family_info = []
