@@ -629,10 +629,10 @@ def postData():
     # 更新人员信息
     elif post_data["Action"] == "UpdatePersonnel":
         return UpdatePersonnel(post_data)
-    # 更新人员信息
+    # 查看人员信息列表
     elif post_data["Action"] == "ListPersonnel":
         return ListPersonnel()
-    # 更新人员信息
+    # 查看账号列表
     elif post_data["Action"] == "ListUser":
         return ListUser()
     # 信息检索
