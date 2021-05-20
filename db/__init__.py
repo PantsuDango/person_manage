@@ -399,6 +399,7 @@ class Database() :
                     tmp[index]["family_json_data"] = row["json_data"]
             rows += tmp
 
+
         personnel_info = []
         if "Type" in post_data :
             for row in rows :
@@ -479,6 +480,44 @@ class Database() :
             delete from user_info where id=%d;
         """%(id)
         self.cur.execute(sql)
+
+
+    # 查询人员信息
+    def select_personnel_info(self, id):
+
+        result = {}
+        err = ""
+
+        check_sql = """
+            select * from personnel_info where id=%d;
+        """%(id)
+        self.cur.execute(check_sql)
+        personnel_info = self.sql_fetch_json()
+        if not personnel_info :
+            err = "PersonnelId doesn't exist"
+            return err
+
+        result["personnel_info"] = personnel_info
+
+        sql = """
+            select * from family_info where id=%d;
+        """%personnel_info[0]["family_id"]
+        self.cur.execute(sql)
+        family_info = self.sql_fetch_json()
+
+        result["family_info"] = family_info
+
+        for index in range(len(result["personnel_info"])) :
+            del result["personnel_info"][index]["createtime"]
+            del result["personnel_info"][index]["lastupdate"]
+
+        for index in range(len(result["family_info"])) :
+            del result["family_info"][index]["createtime"]
+            del result["family_info"][index]["lastupdate"]
+
+        return err, result
+
+
 
 
 if __name__ == "__main__" :

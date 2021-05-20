@@ -395,7 +395,7 @@ def UpdatePersonnel(post_data) :
         return jsonSuccess("Success")
 
 
-# 查询家庭信息列表
+# 查询用户信息列表
 def ListPersonnel() :
 
     # 校验请求参数是否符合预期
@@ -552,6 +552,29 @@ def DeleteUser(post_data) :
         return jsonSuccess("Success")
 
 
+# 查询人员详情
+def PersonnelInfo(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session) :
+        return jsonFail("Login information is invalid, please to login")
+
+    check_list = ["PersonnelId"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+    try :
+        db = Database()
+        err, result = db.select_personnel_info(post_data["PersonnelId"])
+    except Exception as err :
+        return jsonFail(err)
+    else :
+        if err :
+            return jsonFail(err)
+        db.close()
+        return jsonSuccess(result)
+
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
@@ -623,6 +646,9 @@ def postData():
     # 删除账户信息
     elif post_data["Action"] == "DeleteUser":
         return DeleteUser(post_data)
+    # 查询人员详情
+    elif post_data["Action"] == "PersonnelInfo":
+        return PersonnelInfo(post_data)
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 

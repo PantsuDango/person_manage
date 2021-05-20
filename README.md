@@ -907,3 +907,63 @@
     "RequestId": "33179a4a-882e-415b-86ff-a7a69c9b000b"
 }
 ```
+
+
+#### 查询人员详情
+
+##### 简要描述
+
+- 查询人员详情
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "PersonnelInfo",
+    "PersonnelId": 1
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|PersonnelId |是  |int |人员Id   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": {
+        "family_info": [
+            {
+                "addr_id": 0,
+                "id": 1,
+                "json_data": "{\"FamilyNumber\":3,\"FamilyNumberID\":\"家庭编号家庭编号\",\"PermanentNumber\":\"户口编号户口编号\",\"MasterName\":\"户主\",\"Phone\":\"系电话\",\"Condition\":\"经济\",\"houseType\":\"所类型\",\"Address\":\"2312\",\"Desc\":\"3123123\"}",
+                "master_name": "户主",
+                "user_id": 2
+            }
+        ],
+        "personnel_info": [
+            {
+                "domicile": "海南儋州",
+                "family_id": 1,
+                "id": 1,
+                "json_data": "{}",
+                "type": 1,
+                "user_id": 7
+            }
+        ]
+    },
+    "Message": "Success",
+    "RequestId": "df75471b-ad4b-4247-8d5c-bdf5dc054885"
+}
+```
