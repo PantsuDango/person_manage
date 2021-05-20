@@ -324,6 +324,7 @@ class Database() :
             if family:
                 result["family_info"] = family
 
+        result = [result]
         return result
 
     # 查询账号列表
