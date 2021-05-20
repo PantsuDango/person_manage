@@ -313,18 +313,19 @@ class Database() :
         self.cur.execute(sql)
         personnel = self.sql_fetch_json()
 
-        result = {}
-        if personnel :
-            result["personnel_info"] = personnel
-            sql = """
-                select * from family_info where id=%d;
-            """%personnel[0]["family_id"]
-            self.cur.execute(sql)
-            family = self.sql_fetch_json()
-            if family:
-                result["family_info"] = family
+        # result = {}
+        # if personnel :
+        #     result["personnel_info"] = personnel
+        #     sql = """
+        #         select * from family_info where id=%d;
+        #     """%personnel[0]["family_id"]
+        #     self.cur.execute(sql)
+        #     family = self.sql_fetch_json()
+        #     if family:
+        #         result["family_info"] = family
 
-        result = [result]
+        result = []
+        result.append(personnel)
         return result
 
     # 查询账号列表
