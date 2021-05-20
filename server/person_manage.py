@@ -500,6 +500,32 @@ def FamilyInfo(post_data) :
         return jsonSuccess(result)
 
 
+# 修改账户信息
+def ModifyUser(post_data) :
+
+    # 校验请求参数是否符合预期
+    if ("ID" not in session) or ("Type" not in session):
+        return jsonFail("Login information is invalid, please to login")
+    if session['Type'] not in [2, 3] :
+        return jsonFail("user type error")
+
+    check_list = ["UserId", "Password"]
+    check_result = checkPostData(check_list, post_data)
+    if check_result:
+        return jsonFail(check_result)
+
+    try:
+        db = Database()
+        err = db.modify_user(post_data["UserId"], post_data["Password"])
+    except Exception as err:
+        return jsonFail(err)
+    else:
+        if err :
+            return jsonFail(err)
+        db.close()
+        return jsonSuccess("Success")
+
+
 # 主接口
 @app.route("/person_manage/api", methods=["POST"])
 def postData():
@@ -565,6 +591,9 @@ def postData():
     # 查询家庭详情
     elif post_data["Action"] == "FamilyInfo":
         return FamilyInfo(post_data)
+    # 修改账户信息
+    elif post_data["Action"] == "ModifyUser":
+        return ModifyUser(post_data)
     else :
         return jsonFail("Action %s doesn't exist"%post_data["Action"])
 

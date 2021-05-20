@@ -447,6 +447,23 @@ class Database() :
         return result
 
 
+    def modify_user(self, id, password) :
+
+        check_sql = """
+            select * from user_info where id=%d;
+        """ % (id)
+        self.cur.execute(check_sql)
+        rows = self.sql_fetch_json()
+        if not rows:
+            err = "UserId doesn't exist"
+            return err
+
+        sql = """
+            update user_info set password='%s' where id=%d;
+        """%(password, id)
+        self.cur.execute(sql)
+
+
 if __name__ == "__main__" :
 
     db = Database()

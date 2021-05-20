@@ -825,3 +825,45 @@
     "RequestId": "2b402953-aa4e-42bc-91cc-522b222ae1d9"
 }
 ```
+
+
+#### 修改账户信息
+
+##### 简要描述
+
+- 修改账户信息
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "ModifyUser",
+    "Password": "123456",
+    "UserId": 3
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|Password |是  |string |密码   |
+|UserId |是  |int |账户id   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": "Success",
+    "Message": "Success",
+    "RequestId": "33179a4a-882e-415b-86ff-a7a69c9b000b"
+}
+```
