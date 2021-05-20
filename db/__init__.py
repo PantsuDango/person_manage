@@ -464,6 +464,23 @@ class Database() :
         self.cur.execute(sql)
 
 
+    def delete_user(self, id) :
+
+        check_sql = """
+            select * from user_info where id=%d;
+        """ % (id)
+        self.cur.execute(check_sql)
+        rows = self.sql_fetch_json()
+        if not rows:
+            err = "UserId doesn't exist"
+            return err
+
+        sql = """
+            delete from user_info where id=%d;
+        """%(id)
+        self.cur.execute(sql)
+
+
 if __name__ == "__main__" :
 
     db = Database()

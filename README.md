@@ -867,3 +867,43 @@
     "RequestId": "33179a4a-882e-415b-86ff-a7a69c9b000b"
 }
 ```
+
+
+#### 删除账户信息
+
+##### 简要描述
+
+- 删除账户信息
+
+##### 请求URL
+- ` http://39.108.110.77/person_manage/api `
+  
+##### 请求方式
+- POST 
+
+##### 请求示例 
+
+``` 
+{
+    "Action": "DeleteUser",
+    "UserId": 3
+}
+```
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|Action |是  |string |接口名   |
+|UserId |是  |int |账户id   |
+
+##### 返回示例 
+
+``` 
+{
+    "Code": 0,
+    "Data": "Success",
+    "Message": "Success",
+    "RequestId": "33179a4a-882e-415b-86ff-a7a69c9b000b"
+}
+```
