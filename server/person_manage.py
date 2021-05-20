@@ -274,8 +274,6 @@ def ListFamily() :
     # 校验请求参数是否符合预期
     if ("ID" not in session) or ("Type" not in session) :
         return jsonFail("Login information is invalid, please to login")
-    if session['Type'] not in [2, 3] :
-        return jsonFail("暂无权限访问")
 
     try :
         db = Database()
