@@ -289,8 +289,19 @@ class Database() :
             select * from personnel_info where family_id=%d;
         """%(family_id)
         self.cur.execute(sql)
-        family = self.sql_fetch_json()
-        return family
+        personnel_info = self.sql_fetch_json()
+
+        for index in range(len(personnel_info)) :
+            if personnel_info[index]["user_id"] > 0 :
+                sql = """
+                    select * from user_info where id=%d;
+                """%(personnel_info[index]["user_id"])
+                self.cur.execute(sql)
+                user_info = self.sql_fetch_json()
+                if user_info :
+                    personnel_info[index]["username"] = user_info[0]["username"]
+
+        return personnel_info
 
 
     # 普通用户登录查询用户信息
